@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9ff30f8566a443adb11bc4e9f50a8937" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.CategorySum" Width="1.5" PointX="3" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Company" Width="1.5" PointX="3" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.InsuranceAgent" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.InsuranceCase" Width="1.5" PointX="0.75" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.InsurancePayments" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.RiskCategory" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Signature" Width="1.5" PointX="7.5" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Specialization" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Worker" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Сontract" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_CategorySum_RiskCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Сontract_CategorySum" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Company_Specialization" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Сontract_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Сontract_InsuranceAgent" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_InsurancePayments_InsuranceCase" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Сontract_InsurancePayments" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Worker_RiskCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Signature_Worker" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Signature_Сontract" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

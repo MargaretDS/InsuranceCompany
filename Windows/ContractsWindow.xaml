@@ -1,0 +1,32 @@
+﻿<Window x:Class="InsuranceCompany.Windows.ContractsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InsuranceCompany.Windows"
+        mc:Ignorable="d"
+        Title="Информация о договорах"  Height="600" Width="1000" MinHeight="600" MinWidth="1000">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DataGrid x:Name="DataGridContractsInfo" Grid.Row="0"  AutoGenerateColumns="False" IsReadOnly="True" ColumnWidth="*">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Код договора" Binding="{Binding ContractId}" Width="0.6*" ></DataGridTextColumn>
+                <DataGridTextColumn Header="Страховой агент" Binding="{Binding InsuranceAgent.FIO}" Width="1.5*" ></DataGridTextColumn>
+                <DataGridTextColumn Header="Компания" Binding="{Binding Company.ShortName}" ></DataGridTextColumn>
+                <DataGridTextColumn Header="Код выплат" Binding="{Binding PaymentId}" Width="0.6*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Код суммы" Binding="{Binding SumId}" Width="0.6*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата заключения" Binding="{Binding ConclusionDate}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата окончания " Binding="{Binding Period}"></DataGridTextColumn>
+            </DataGrid.Columns>
+            
+        </DataGrid>
+        <WrapPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="ReturnMain" Content="На главную" Click="ReturnMain_Click" Width="300" Height="50"></Button>
+            <Button x:Name="ExportWord" Content="Экспорт данных" Click="ExportWord_Click"  Margin="300 0 0 0"  Width="150" Height="50"></Button>
+            <Button x:Name="OpenFiles" Content="Открыть файл" Click="OpenFiles_Click"  Margin="20 0 0 0"  Width="120" Height="50"></Button>
+        </WrapPanel>
+    </Grid>
+</Window>

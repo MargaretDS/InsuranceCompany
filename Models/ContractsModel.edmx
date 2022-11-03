@@ -1,0 +1,674 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CategorySum">
+          <Key>
+            <PropertyRef Name="SumId" />
+          </Key>
+          <Property Name="SumId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="30" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BankNumber" Type="int" Nullable="false" />
+          <Property Name="SpecializationId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InsuranceAgent">
+          <Key>
+            <PropertyRef Name="AgentId" />
+          </Key>
+          <Property Name="AgentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FIO" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="Passport" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InsuranceCase">
+          <Key>
+            <PropertyRef Name="InsuranceCaseId" />
+          </Key>
+          <Property Name="InsuranceCaseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="Payment" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InsurancePayments">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="PaymentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InsuranceCaseId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RiskCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="Payment" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Signature">
+          <Key>
+            <PropertyRef Name="SignatureId" />
+          </Key>
+          <Property Name="SignatureId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WorkerId" Type="int" Nullable="false" />
+          <Property Name="ContractId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Specialization">
+          <Key>
+            <PropertyRef Name="SpecializationId" />
+          </Key>
+          <Property Name="SpecializationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="70" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Worker">
+          <Key>
+            <PropertyRef Name="WorkerId" />
+          </Key>
+          <Property Name="WorkerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FIO" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="Age" Type="int" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Сontract">
+          <Key>
+            <PropertyRef Name="ContractId" />
+          </Key>
+          <Property Name="ContractId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AgentId" Type="int" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="SignatureId" Type="int" Nullable="false" />
+          <Property Name="PaymentId" Type="int" Nullable="false" />
+          <Property Name="SumId" Type="int" Nullable="false" />
+          <Property Name="ConclusionDate" Type="date" Nullable="false" />
+          <Property Name="Period" Type="date" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CategorySum_RiskCategory">
+          <End Role="RiskCategory" Type="Self.RiskCategory" Multiplicity="1" />
+          <End Role="CategorySum" Type="Self.CategorySum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RiskCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="CategorySum">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Company_Specialization">
+          <End Role="Specialization" Type="Self.Specialization" Multiplicity="1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialization">
+              <PropertyRef Name="SpecializationId" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="SpecializationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InsurancePayments_InsuranceCase">
+          <End Role="InsuranceCase" Type="Self.InsuranceCase" Multiplicity="1" />
+          <End Role="InsurancePayments" Type="Self.InsurancePayments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InsuranceCase">
+              <PropertyRef Name="InsuranceCaseId" />
+            </Principal>
+            <Dependent Role="InsurancePayments">
+              <PropertyRef Name="InsuranceCaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Signature_Worker">
+          <End Role="Worker" Type="Self.Worker" Multiplicity="1" />
+          <End Role="Signature" Type="Self.Signature" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Worker">
+              <PropertyRef Name="WorkerId" />
+            </Principal>
+            <Dependent Role="Signature">
+              <PropertyRef Name="WorkerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Signature_Сontract">
+          <End Role="Сontract" Type="Self.Сontract" Multiplicity="1" />
+          <End Role="Signature" Type="Self.Signature" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сontract">
+              <PropertyRef Name="ContractId" />
+            </Principal>
+            <Dependent Role="Signature">
+              <PropertyRef Name="ContractId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Worker_RiskCategory">
+          <End Role="RiskCategory" Type="Self.RiskCategory" Multiplicity="1" />
+          <End Role="Worker" Type="Self.Worker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RiskCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Worker">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сontract_CategorySum">
+          <End Role="CategorySum" Type="Self.CategorySum" Multiplicity="1" />
+          <End Role="Сontract" Type="Self.Сontract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategorySum">
+              <PropertyRef Name="SumId" />
+            </Principal>
+            <Dependent Role="Сontract">
+              <PropertyRef Name="SumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сontract_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Сontract" Type="Self.Сontract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Сontract">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сontract_InsuranceAgent">
+          <End Role="InsuranceAgent" Type="Self.InsuranceAgent" Multiplicity="1" />
+          <End Role="Сontract" Type="Self.Сontract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InsuranceAgent">
+              <PropertyRef Name="AgentId" />
+            </Principal>
+            <Dependent Role="Сontract">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сontract_InsurancePayments">
+          <End Role="InsurancePayments" Type="Self.InsurancePayments" Multiplicity="1" />
+          <End Role="Сontract" Type="Self.Сontract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InsurancePayments">
+              <PropertyRef Name="PaymentId" />
+            </Principal>
+            <Dependent Role="Сontract">
+              <PropertyRef Name="PaymentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ModelContainer">
+          <EntitySet Name="CategorySum" EntityType="Self.CategorySum" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InsuranceAgent" EntityType="Self.InsuranceAgent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InsuranceCase" EntityType="Self.InsuranceCase" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InsurancePayments" EntityType="Self.InsurancePayments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RiskCategory" EntityType="Self.RiskCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Signature" EntityType="Self.Signature" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Specialization" EntityType="Self.Specialization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Worker" EntityType="Self.Worker" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Сontract" EntityType="Self.Сontract" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CategorySum_RiskCategory" Association="Self.FK_CategorySum_RiskCategory">
+            <End Role="RiskCategory" EntitySet="RiskCategory" />
+            <End Role="CategorySum" EntitySet="CategorySum" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Company_Specialization" Association="Self.FK_Company_Specialization">
+            <End Role="Specialization" EntitySet="Specialization" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InsurancePayments_InsuranceCase" Association="Self.FK_InsurancePayments_InsuranceCase">
+            <End Role="InsuranceCase" EntitySet="InsuranceCase" />
+            <End Role="InsurancePayments" EntitySet="InsurancePayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Signature_Worker" Association="Self.FK_Signature_Worker">
+            <End Role="Worker" EntitySet="Worker" />
+            <End Role="Signature" EntitySet="Signature" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Signature_Сontract" Association="Self.FK_Signature_Сontract">
+            <End Role="Сontract" EntitySet="Сontract" />
+            <End Role="Signature" EntitySet="Signature" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Worker_RiskCategory" Association="Self.FK_Worker_RiskCategory">
+            <End Role="RiskCategory" EntitySet="RiskCategory" />
+            <End Role="Worker" EntitySet="Worker" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сontract_CategorySum" Association="Self.FK_Сontract_CategorySum">
+            <End Role="CategorySum" EntitySet="CategorySum" />
+            <End Role="Сontract" EntitySet="Сontract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сontract_Company" Association="Self.FK_Сontract_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Сontract" EntitySet="Сontract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сontract_InsuranceAgent" Association="Self.FK_Сontract_InsuranceAgent">
+            <End Role="InsuranceAgent" EntitySet="InsuranceAgent" />
+            <End Role="Сontract" EntitySet="Сontract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сontract_InsurancePayments" Association="Self.FK_Сontract_InsurancePayments">
+            <End Role="InsurancePayments" EntitySet="InsurancePayments" />
+            <End Role="Сontract" EntitySet="Сontract" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CategorySum">
+          <Key>
+            <PropertyRef Name="SumId" />
+          </Key>
+          <Property Name="SumId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RiskCategory" Relationship="Self.FK_CategorySum_RiskCategory" FromRole="CategorySum" ToRole="RiskCategory" />
+          <NavigationProperty Name="Сontract" Relationship="Self.FK_Сontract_CategorySum" FromRole="CategorySum" ToRole="Сontract" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ShortName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BankNumber" Type="Int32" Nullable="false" />
+          <Property Name="SpecializationId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Specialization" Relationship="Self.FK_Company_Specialization" FromRole="Company" ToRole="Specialization" />
+          <NavigationProperty Name="Сontract" Relationship="Self.FK_Сontract_Company" FromRole="Company" ToRole="Сontract" />
+        </EntityType>
+        <EntityType Name="InsuranceAgent">
+          <Key>
+            <PropertyRef Name="AgentId" />
+          </Key>
+          <Property Name="AgentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Passport" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Сontract" Relationship="Self.FK_Сontract_InsuranceAgent" FromRole="InsuranceAgent" ToRole="Сontract" />
+        </EntityType>
+        <EntityType Name="InsuranceCase">
+          <Key>
+            <PropertyRef Name="InsuranceCaseId" />
+          </Key>
+          <Property Name="InsuranceCaseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Payment" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="InsurancePayments" Relationship="Self.FK_InsurancePayments_InsuranceCase" FromRole="InsuranceCase" ToRole="InsurancePayments" />
+        </EntityType>
+        <EntityType Name="InsurancePayments">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="PaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InsuranceCaseId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InsuranceCase" Relationship="Self.FK_InsurancePayments_InsuranceCase" FromRole="InsurancePayments" ToRole="InsuranceCase" />
+          <NavigationProperty Name="Сontract" Relationship="Self.FK_Сontract_InsurancePayments" FromRole="InsurancePayments" ToRole="Сontract" />
+        </EntityType>
+        <EntityType Name="RiskCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Payment" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="CategorySum" Relationship="Self.FK_CategorySum_RiskCategory" FromRole="RiskCategory" ToRole="CategorySum" />
+          <NavigationProperty Name="Worker" Relationship="Self.FK_Worker_RiskCategory" FromRole="RiskCategory" ToRole="Worker" />
+        </EntityType>
+        <EntityType Name="Signature">
+          <Key>
+            <PropertyRef Name="SignatureId" />
+          </Key>
+          <Property Name="SignatureId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WorkerId" Type="Int32" Nullable="false" />
+          <Property Name="ContractId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Worker" Relationship="Self.FK_Signature_Worker" FromRole="Signature" ToRole="Worker" />
+          <NavigationProperty Name="Сontract" Relationship="Self.FK_Signature_Сontract" FromRole="Signature" ToRole="Сontract" />
+        </EntityType>
+        <EntityType Name="Specialization">
+          <Key>
+            <PropertyRef Name="SpecializationId" />
+          </Key>
+          <Property Name="SpecializationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_Company_Specialization" FromRole="Specialization" ToRole="Company" />
+        </EntityType>
+        <EntityType Name="Worker">
+          <Key>
+            <PropertyRef Name="WorkerId" />
+          </Key>
+          <Property Name="WorkerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Age" Type="Int32" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RiskCategory" Relationship="Self.FK_Worker_RiskCategory" FromRole="Worker" ToRole="RiskCategory" />
+          <NavigationProperty Name="Signature" Relationship="Self.FK_Signature_Worker" FromRole="Worker" ToRole="Signature" />
+        </EntityType>
+        <EntityType Name="Сontract">
+          <Key>
+            <PropertyRef Name="ContractId" />
+          </Key>
+          <Property Name="ContractId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="SignatureId" Type="Int32" Nullable="false" />
+          <Property Name="PaymentId" Type="Int32" Nullable="false" />
+          <Property Name="SumId" Type="Int32" Nullable="false" />
+          <Property Name="ConclusionDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Period" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="CategorySum" Relationship="Self.FK_Сontract_CategorySum" FromRole="Сontract" ToRole="CategorySum" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_Сontract_Company" FromRole="Сontract" ToRole="Company" />
+          <NavigationProperty Name="InsuranceAgent" Relationship="Self.FK_Сontract_InsuranceAgent" FromRole="Сontract" ToRole="InsuranceAgent" />
+          <NavigationProperty Name="InsurancePayments" Relationship="Self.FK_Сontract_InsurancePayments" FromRole="Сontract" ToRole="InsurancePayments" />
+          <NavigationProperty Name="Signature" Relationship="Self.FK_Signature_Сontract" FromRole="Сontract" ToRole="Signature" />
+        </EntityType>
+        <Association Name="FK_CategorySum_RiskCategory">
+          <End Role="RiskCategory" Type="Self.RiskCategory" Multiplicity="1" />
+          <End Role="CategorySum" Type="Self.CategorySum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RiskCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="CategorySum">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сontract_CategorySum">
+          <End Role="CategorySum" Type="Self.CategorySum" Multiplicity="1" />
+          <End Role="Сontract" Type="Self.Сontract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategorySum">
+              <PropertyRef Name="SumId" />
+            </Principal>
+            <Dependent Role="Сontract">
+              <PropertyRef Name="SumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Company_Specialization">
+          <End Role="Specialization" Type="Self.Specialization" Multiplicity="1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialization">
+              <PropertyRef Name="SpecializationId" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="SpecializationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сontract_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Сontract" Type="Self.Сontract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Сontract">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сontract_InsuranceAgent">
+          <End Role="InsuranceAgent" Type="Self.InsuranceAgent" Multiplicity="1" />
+          <End Role="Сontract" Type="Self.Сontract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InsuranceAgent">
+              <PropertyRef Name="AgentId" />
+            </Principal>
+            <Dependent Role="Сontract">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InsurancePayments_InsuranceCase">
+          <End Role="InsuranceCase" Type="Self.InsuranceCase" Multiplicity="1" />
+          <End Role="InsurancePayments" Type="Self.InsurancePayments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InsuranceCase">
+              <PropertyRef Name="InsuranceCaseId" />
+            </Principal>
+            <Dependent Role="InsurancePayments">
+              <PropertyRef Name="InsuranceCaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сontract_InsurancePayments">
+          <End Role="InsurancePayments" Type="Self.InsurancePayments" Multiplicity="1" />
+          <End Role="Сontract" Type="Self.Сontract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InsurancePayments">
+              <PropertyRef Name="PaymentId" />
+            </Principal>
+            <Dependent Role="Сontract">
+              <PropertyRef Name="PaymentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Worker_RiskCategory">
+          <End Role="RiskCategory" Type="Self.RiskCategory" Multiplicity="1" />
+          <End Role="Worker" Type="Self.Worker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RiskCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Worker">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Signature_Worker">
+          <End Role="Worker" Type="Self.Worker" Multiplicity="1" />
+          <End Role="Signature" Type="Self.Signature" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Worker">
+              <PropertyRef Name="WorkerId" />
+            </Principal>
+            <Dependent Role="Signature">
+              <PropertyRef Name="WorkerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Signature_Сontract">
+          <End Role="Сontract" Type="Self.Сontract" Multiplicity="1" />
+          <End Role="Signature" Type="Self.Signature" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сontract">
+              <PropertyRef Name="ContractId" />
+            </Principal>
+            <Dependent Role="Signature">
+              <PropertyRef Name="ContractId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Accounting_of_insurance_contractsEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CategorySum" EntityType="Self.CategorySum" />
+          <EntitySet Name="Company" EntityType="Self.Company" />
+          <EntitySet Name="InsuranceAgent" EntityType="Self.InsuranceAgent" />
+          <EntitySet Name="InsuranceCase" EntityType="Self.InsuranceCase" />
+          <EntitySet Name="InsurancePayments" EntityType="Self.InsurancePayments" />
+          <EntitySet Name="RiskCategory" EntityType="Self.RiskCategory" />
+          <EntitySet Name="Signature" EntityType="Self.Signature" />
+          <EntitySet Name="Specialization" EntityType="Self.Specialization" />
+          <EntitySet Name="Worker" EntityType="Self.Worker" />
+          <EntitySet Name="Сontract" EntityType="Self.Сontract" />
+          <AssociationSet Name="FK_CategorySum_RiskCategory" Association="Self.FK_CategorySum_RiskCategory">
+            <End Role="RiskCategory" EntitySet="RiskCategory" />
+            <End Role="CategorySum" EntitySet="CategorySum" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сontract_CategorySum" Association="Self.FK_Сontract_CategorySum">
+            <End Role="CategorySum" EntitySet="CategorySum" />
+            <End Role="Сontract" EntitySet="Сontract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Company_Specialization" Association="Self.FK_Company_Specialization">
+            <End Role="Specialization" EntitySet="Specialization" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сontract_Company" Association="Self.FK_Сontract_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Сontract" EntitySet="Сontract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сontract_InsuranceAgent" Association="Self.FK_Сontract_InsuranceAgent">
+            <End Role="InsuranceAgent" EntitySet="InsuranceAgent" />
+            <End Role="Сontract" EntitySet="Сontract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InsurancePayments_InsuranceCase" Association="Self.FK_InsurancePayments_InsuranceCase">
+            <End Role="InsuranceCase" EntitySet="InsuranceCase" />
+            <End Role="InsurancePayments" EntitySet="InsurancePayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сontract_InsurancePayments" Association="Self.FK_Сontract_InsurancePayments">
+            <End Role="InsurancePayments" EntitySet="InsurancePayments" />
+            <End Role="Сontract" EntitySet="Сontract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Worker_RiskCategory" Association="Self.FK_Worker_RiskCategory">
+            <End Role="RiskCategory" EntitySet="RiskCategory" />
+            <End Role="Worker" EntitySet="Worker" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Signature_Worker" Association="Self.FK_Signature_Worker">
+            <End Role="Worker" EntitySet="Worker" />
+            <End Role="Signature" EntitySet="Signature" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Signature_Сontract" Association="Self.FK_Signature_Сontract">
+            <End Role="Сontract" EntitySet="Сontract" />
+            <End Role="Signature" EntitySet="Signature" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ModelContainer" CdmEntityContainer="Accounting_of_insurance_contractsEntities1">
+          <EntitySetMapping Name="CategorySum">
+            <EntityTypeMapping TypeName="Model.CategorySum">
+              <MappingFragment StoreEntitySet="CategorySum">
+                <ScalarProperty Name="SumId" ColumnName="SumId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Company">
+            <EntityTypeMapping TypeName="Model.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="BankNumber" ColumnName="BankNumber" />
+                <ScalarProperty Name="SpecializationId" ColumnName="SpecializationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InsuranceAgent">
+            <EntityTypeMapping TypeName="Model.InsuranceAgent">
+              <MappingFragment StoreEntitySet="InsuranceAgent">
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+                <ScalarProperty Name="Passport" ColumnName="Passport" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InsuranceCase">
+            <EntityTypeMapping TypeName="Model.InsuranceCase">
+              <MappingFragment StoreEntitySet="InsuranceCase">
+                <ScalarProperty Name="InsuranceCaseId" ColumnName="InsuranceCaseId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Payment" ColumnName="Payment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InsurancePayments">
+            <EntityTypeMapping TypeName="Model.InsurancePayments">
+              <MappingFragment StoreEntitySet="InsurancePayments">
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+                <ScalarProperty Name="InsuranceCaseId" ColumnName="InsuranceCaseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RiskCategory">
+            <EntityTypeMapping TypeName="Model.RiskCategory">
+              <MappingFragment StoreEntitySet="RiskCategory">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Payment" ColumnName="Payment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Signature">
+            <EntityTypeMapping TypeName="Model.Signature">
+              <MappingFragment StoreEntitySet="Signature">
+                <ScalarProperty Name="SignatureId" ColumnName="SignatureId" />
+                <ScalarProperty Name="WorkerId" ColumnName="WorkerId" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Specialization">
+            <EntityTypeMapping TypeName="Model.Specialization">
+              <MappingFragment StoreEntitySet="Specialization">
+                <ScalarProperty Name="SpecializationId" ColumnName="SpecializationId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Worker">
+            <EntityTypeMapping TypeName="Model.Worker">
+              <MappingFragment StoreEntitySet="Worker">
+                <ScalarProperty Name="WorkerId" ColumnName="WorkerId" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Сontract">
+            <EntityTypeMapping TypeName="Model.Сontract">
+              <MappingFragment StoreEntitySet="Сontract">
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="SignatureId" ColumnName="SignatureId" />
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+                <ScalarProperty Name="SumId" ColumnName="SumId" />
+                <ScalarProperty Name="ConclusionDate" ColumnName="ConclusionDate" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
